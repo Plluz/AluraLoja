@@ -10,13 +10,31 @@ namespace Alura.Loja.Testes.ConsoleApp
     {
         static void Main(string[] args)
         {
-            //GravarUsandoAdoNet();
-            GravarProduto();
-            RecuperarProdutos();
-            AtualizarProduto();
-            RecuperarProdutos();
-            ExcluirProdutos();
-            RecuperarProdutos();
+            using (var contexto = new LojaContext())
+            {
+                var produtos = contexto.Produtos.ToList();
+                foreach (var p in produtos)
+                {
+                    Console.WriteLine(p);
+                }
+
+                var p1 = produtos.First();
+                p1.Nome = "testeeeeeeeee";
+                contexto.SaveChanges();
+
+                produtos = contexto.Produtos.ToList();
+                foreach (var p in produtos)
+                {
+                    Console.WriteLine(p);
+                }
+            }
+
+            //GravarProduto();
+            //RecuperarProdutos();
+            //AtualizarProduto();
+            //RecuperarProdutos();
+            //ExcluirProdutos();
+            //RecuperarProdutos();
 
             Console.ReadLine();
         }
@@ -24,35 +42,33 @@ namespace Alura.Loja.Testes.ConsoleApp
         private static void AtualizarProduto()
         {
             Console.WriteLine("Atualizando dados...");
-            using (var db = new LojaContext())
+            using (var db = new ProdutoDAO())
             {
-                var produto = db.Produtos.FirstOrDefault();
+                var produto = db.Produtos().FirstOrDefault();
                 produto.Preco = 14.90;
-                db.Produtos.Update(produto);
-                db.SaveChanges();
+                db.Atualizar(produto);
             }
         }
 
         private static void ExcluirProdutos()
         {
             Console.WriteLine("Excluindo dados...");
-            using (var db = new LojaContext())
+            using (var db = new ProdutoDAO())
             {
-                IList<Produto> produtos = db.Produtos.ToList();
+                IList<Produto> produtos = db.Produtos();
                 foreach (var item in produtos)
                 {
-                    db.Produtos.Remove(item);
+                    db.Remover(item);
                 }
-                db.SaveChanges();
             }
         }
 
         private static void RecuperarProdutos()
         {
             Console.WriteLine("Obtendo dados...");
-            using (var loja = new LojaContext())
+            using (var loja = new ProdutoDAO())
             {
-                IList<Produto> produtos = loja.Produtos.ToList();
+                IList<Produto> produtos = loja.Produtos();
                 foreach (var item in produtos)
                 {
                     Console.WriteLine(item.Nome + " - " + item.Preco);
@@ -63,28 +79,11 @@ namespace Alura.Loja.Testes.ConsoleApp
         private static void GravarProduto()
         {
             Console.WriteLine("Gravando dados...");
-            Produto p = new Produto();
-            p.Nome = "Harry Potter e a Ordem da Fênix";
-            p.Categoria = "Livros";
-            p.Preco = 19.89;
+            Produto p = new Produto("Livros", "Harry Potter e a Ordem da Fênix", 19.90);
 
-            using (var contexto = new LojaContext())
+            using (var contexto = new ProdutoDAO())
             {
-                contexto.Produtos.Add(p);
-                contexto.SaveChanges();
-            }
-        }
-
-        private static void GravarUsandoAdoNet()
-        {
-            Produto p = new Produto();
-            p.Nome = "Harry Potter e a Ordem da Fênix";
-            p.Categoria = "Livros";
-            p.Preco = 19.89;
-
-            using (var repo = new ProdutoDAO())
-            {
-                repo.Adicionar(p);
+                contexto.Adicionar(p);
             }
         }
     }
