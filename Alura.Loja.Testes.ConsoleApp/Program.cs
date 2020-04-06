@@ -45,7 +45,7 @@ namespace Alura.Loja.Testes.ConsoleApp
             using (var db = new ProdutoDAO())
             {
                 var produto = db.Produtos().FirstOrDefault();
-                produto.Preco = 14.90;
+                produto.PrecoUnitario = 14.90;
                 db.Atualizar(produto);
             }
         }
@@ -71,7 +71,7 @@ namespace Alura.Loja.Testes.ConsoleApp
                 IList<Produto> produtos = loja.Produtos();
                 foreach (var item in produtos)
                 {
-                    Console.WriteLine(item.Nome + " - " + item.Preco);
+                    Console.WriteLine(item.Nome + " - " + item.PrecoUnitario);
                 }
             }
         }
