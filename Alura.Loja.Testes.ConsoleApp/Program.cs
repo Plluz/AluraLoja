@@ -32,6 +32,11 @@ namespace Alura.Loja.Testes.ConsoleApp
                 Unidade = "UNIDADE"
             };
 
+            var compra = new Compra();
+            compra.Quantidade = 4;
+            compra.Produto = chocolate;
+            compra.Preco = compra.Quantidade * compra.Produto.PrecoUnitario;
+
             var promocaoPascoa = new Promocao()
             {
                 Descricao = "Páscoa Daora",
@@ -42,16 +47,23 @@ namespace Alura.Loja.Testes.ConsoleApp
             promocaoPascoa.AdicionarProduto(suco);
             promocaoPascoa.AdicionarProduto(miojo);
 
-            using (var contexto = new LojaContext())
+            var cliente = new Cliente()
             {
-                contexto.Promocoes.Add(promocaoPascoa);
-                contexto.SaveChanges();
-            }
+                Nome = "Fulano da Silva",
+                EnderecoDeEntrega = new Endereco()
+                {
+                    Cidade = "Porto Alegre",
+                    Bairro = "Passo d'Areia",
+                    Rua = "Novo Hamburgo",
+                    Numero = "104"
+                }
+            };
 
-            //var compra = new Compra();
-            //compra.Quantidade = 4;
-            //compra.Produto = chocolate;
-            //compra.Preco = compra.Quantidade * compra.Produto.PrecoUnitario;
+            //using (var contexto = new LojaContext())
+            //{
+            //    contexto.Clientes.Add(cliente);
+            //    contexto.SaveChanges();
+            //}
 
             Console.ReadLine();
         }

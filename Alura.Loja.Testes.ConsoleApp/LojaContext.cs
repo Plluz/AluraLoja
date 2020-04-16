@@ -8,13 +8,25 @@ namespace Alura.Loja.Testes.ConsoleApp
         public DbSet<Produto> Produtos { get; set; }
         public DbSet<Compra> Compras { get; set; }
         public DbSet<Promocao> Promocoes { get; set; }
+        public DbSet<Cliente> Clientes { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .Entity<ProdutoPromocao>()
                 .HasKey(pp => new { pp.ProdutoId, pp.PromocaoId }); // chave composta
-            base.OnModelCreating(modelBuilder); 
+
+            modelBuilder
+                .Entity<Endereco>()
+                .ToTable("Enderecos"); // entity 'Endereco' será a table 'Enderecos'
+
+            modelBuilder
+                .Entity<Endereco>()
+                .Property<int>("ClienteId"); // shadow property
+
+            modelBuilder
+                .Entity<Endereco>()
+                .HasKey("ClienteId");
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
