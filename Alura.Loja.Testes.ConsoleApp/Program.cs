@@ -10,31 +10,32 @@ namespace Alura.Loja.Testes.ConsoleApp
     {
         static void Main(string[] args)
         {
-            using (var contexto = new LojaContext())
-            {
-                var produtos = contexto.Produtos.ToList();
-                foreach (var p in produtos)
-                {
-                    Console.WriteLine(p);
-                }
-
-                var p1 = produtos.First();
-                p1.Nome = "testeeeeeeeee";
-                contexto.SaveChanges();
-
-                produtos = contexto.Produtos.ToList();
-                foreach (var p in produtos)
-                {
-                    Console.WriteLine(p);
-                }
-            }
-
             //GravarProduto();
             //RecuperarProdutos();
             //AtualizarProduto();
             //RecuperarProdutos();
             //ExcluirProdutos();
             //RecuperarProdutos();
+
+
+            //var chocolate = new Produto()
+            //{
+            //    Nome = "CHOCOLATE HERSHEY'S 90G",
+            //    Categoria = "ALIMENTO",
+            //    PrecoUnitario = 4.38,
+            //    Unidade = "UNIDADE"
+            //};
+
+            //var compra = new Compra();
+            //compra.Quantidade = 4;
+            //compra.Produto = chocolate;
+            //compra.Preco = compra.Quantidade * compra.Produto.PrecoUnitario;
+
+            var promocaoPascoa = new Promocao();
+            promocaoPascoa.Descricao = "Páscoa Daora";
+            promocaoPascoa.DataInicio = DateTime.Now;
+            promocaoPascoa.DataTermino = DateTime.Now.AddDays(15);
+            //promocaoPascoa.Produtos.Add(new Produto());
 
             Console.ReadLine();
         }
@@ -76,14 +77,16 @@ namespace Alura.Loja.Testes.ConsoleApp
             }
         }
 
-        private static void GravarProduto()
+        private static void GravarProdutos(List<Produto> produtos)
         {
             Console.WriteLine("Gravando dados...");
-            Produto p = new Produto("Livros", "Harry Potter e a Ordem da Fênix", 19.90);
 
             using (var contexto = new ProdutoDAO())
             {
-                contexto.Adicionar(p);
+                foreach (var p in produtos)
+                {
+                    contexto.Adicionar(p);
+                }
             }
         }
     }
