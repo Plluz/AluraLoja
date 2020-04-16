@@ -7,6 +7,7 @@ namespace Alura.Loja.Testes.ConsoleApp
     {
         public Promocao()
         {
+            this.Produtos = new List<ProdutoPromocao>();
         }
 
         public int Id { get; set; }
@@ -14,5 +15,10 @@ namespace Alura.Loja.Testes.ConsoleApp
         public DateTime DataInicio { get; internal set; }
         public DateTime DataTermino { get; internal set; }
         public IList<ProdutoPromocao> Produtos { get; internal set; }
+
+        internal void AdicionarProduto(Produto p)
+        {
+            this.Produtos.Add(new ProdutoPromocao() { Produto = p });
+        }
     }
 }
